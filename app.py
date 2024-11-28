@@ -1,8 +1,6 @@
 import pandas as pd
 import sys
 
-print(sys.argv[0])
-
 def totalProcess():
   
   if(sys.argv[1] == "-total" 
@@ -17,7 +15,14 @@ def totalProcess():
     df_year = file[file["Year"] == year]
     df_medals = df_year[df_year['Medal'].isin(medals)]
     df_countries = df_medals[df_medals['Team']]
-    print(df_countries)
+    
+    medal_counts = (
+      df_medals.groupby(['Team', 'Medal'])
+      .size()
+      .unstack(fill_value=0)
+    )
+    for team, counts in medal_counts.iterrows():
+      print(f"{team} - золото: {counts['Gold']} - серебро: {counts['Silver']} - бронза: {counts['Bronze']}")
     
 totalProcess()
 
