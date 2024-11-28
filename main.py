@@ -1,12 +1,15 @@
-from file_work import open_file, costomize_csv, write_file, get_countries_summary
+from app import task_1, task_2, task_4, task_3
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 import warnings
 import sys, os
 
 def main():
     save_file = False
+    save_path = ''
     sec_arg = ["-medals", "-total", "-overall", "-interactive"]
-    if sys.argv[1] not in  sec_arg:
+    medals =["Gold", "Silver", "Bronze"] 
+
+    if sys.argv[1] not in sec_arg:
         print("Error: The '-medals/overall/total/interactive' argument must be the second argument.")
         sys.exit(1)
 
@@ -15,32 +18,16 @@ def main():
         save_path = sys.argv[5]
 
     if sys.argv[1] == sec_arg[0]:
-        country_name = sys.argv[2]
-        year_name = int(sys.argv[3])
-        medals =["Gold", "Silver", "Bronze"] 
+        task_1(save_file, save_path)
 
-        file = open_file()
+    elif sys.argv[1] == sec_arg[1] and int(sys.argv[2]) >= 1896 and int(sys.argv[2]) <= 2016:
+        task_2(medals)
 
-        df_medalists = costomize_csv(file, country_name, year_name, medals)
-        print(df_medalists.head(10))
+    elif sys.argv[1] == sec_arg[2]:
+        task_3(medals)
 
-        list_med = [df_medalists["Name"].tolist()] + [df_medalists["Sport"].tolist()] + [df_medalists["Medal"].tolist()]
-        print(list_med[0][0], list_med[1][0], list_med[2][0])
-
-
-        if save_file:
-            write_file(save_path, list_med)
-
-    if sys.argv[1] == sec_arg[2]:
-        medals =["Gold", "Silver", "Bronze"] 
-        file = open_file()
-        countries = []
-        for i in range(2, len(sys.argv)):
-            countries.append(sys.argv[i])
-
-        summary = get_countries_summary(file, countries, medals)
-        for i in countries:
-            print(i, summary[i])
+    elif sys.argv[1] == sec_arg[3]:
+        task_4(medals)
 
 
 if __name__ == "__main__":
