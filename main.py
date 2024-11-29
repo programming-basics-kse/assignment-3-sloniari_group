@@ -1,7 +1,5 @@
 from app import task_1, task_2, task_4, task_3
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-import warnings
-import sys, os
+import sys
 
 def main():
     save_file = False

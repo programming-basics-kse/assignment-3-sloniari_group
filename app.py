@@ -1,6 +1,4 @@
-import pandas as pd
 import sys
-import os
 from file_work import open_file, costomize_csv, write_file, check_in
 
 def cout_medals(medal_counts, user_data):
@@ -21,7 +19,7 @@ def cout_medals(medal_counts, user_data):
 def get_countries_summary(df, countries, medals):
     answer = {}
     for country in countries:
-        df_country = df[(df['NOC'] == country) & (df['Medal'].isin(medals))]
+        df_country = df[(df['Team'] == country) & (df['Medal'].isin(medals))]
         medal_count_by_year = df_country.groupby('Year').size()
         
         if not medal_count_by_year.empty:
@@ -33,8 +31,10 @@ def get_countries_summary(df, countries, medals):
     return answer
 
 def task_1(save_file, save_path):
+
   country_name = sys.argv[2]
   year_name = int(sys.argv[3])
+
   medals =["Gold", "Silver", "Bronze"] 
   file = open_file()
   df_medalists, bool_answer = costomize_csv(file, country_name, year_name, medals)
@@ -49,7 +49,6 @@ def task_1(save_file, save_path):
       write_file(save_path, list_med)
   else:
      print("incorrect input")
-
 
 def task_2(medals):
   file = open_file()
@@ -72,7 +71,7 @@ def task_3(medals):
         countries = []
         for i in range(2, len(sys.argv)):
             countries.append(sys.argv[i])
-        if check_in(file, countries, "NOC"):
+        if check_in(file, countries, "Team"):
           summary = get_countries_summary(file, countries, medals)
           for i in countries:
               print(i, summary[i])
